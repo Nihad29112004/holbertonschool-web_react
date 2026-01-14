@@ -15,9 +15,9 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   devServer: {
+    contentBase: path.join(__dirname, 'public'),
     port: 8564,
     open: true,
-    hot: true,
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -42,6 +42,10 @@ module.exports = {
           'file-loader',
           {
             loader: 'image-webpack-loader',
+            options: {
+              bypassOnDebug: true,
+              disable: false,
+            },
           },
         ],
       },
