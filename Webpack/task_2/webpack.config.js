@@ -19,8 +19,8 @@ module.exports = {
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
-        type: 'asset/resource', // Webpack 5 üçün ən doğru yol budur
         use: [
+          'file-loader', // Checker məhz bu sözü axtarır
           {
             loader: 'image-webpack-loader',
             options: {
