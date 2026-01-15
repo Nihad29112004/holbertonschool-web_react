@@ -1,17 +1,15 @@
 import React from 'react';
 import logo from './holberton-logo.jpg';
 import './App.css';
-import { getCurrentYear, getFooterCopy } from './utils'; // Funksiyaları import edirik
-import Notifications from './Notifications'; // Komponenti import edirik
+import { getCurrentYear, getFooterCopy } from './utils';
+import Notifications from './Notifications';
 
 function App() {
   return (
-    <>
-      {/* Notifications komponentini root-notifications div-inə bükürük */}
+    <React.Fragment>
       <div className="root-notifications">
         <Notifications />
       </div>
-      
       <div className="App">
         <div className="App-header">
           <img src={logo} alt="holberton logo" />
@@ -21,11 +19,10 @@ function App() {
           <p>Login to access the full dashboard</p>
         </div>
         <div className="App-footer">
-          {/* Funksiyalardan istifadə edirik */}
           <p>Copyright {getCurrentYear()} - {getFooterCopy(true)}</p>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 }
 
