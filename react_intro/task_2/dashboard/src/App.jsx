@@ -10,27 +10,26 @@ function App() {
         <Notifications />
       </div>
       <div className="App">
-        <header className="App-header">
+        <div className="App-header">
           <img src={logo} alt="holberton logo" />
           <h1>School dashboard</h1>
-        </header>
-        <main className="App-body">
+        </div>
+        <div className="App-body">
           <p>Login to access the full dashboard</p>
           
-          {/* Email sahəsi */}
+          {/* Email bloku - Aradakı boşluqlara və htmlFor/id uyğunluğuna diqqət */}
           <label htmlFor="email">Email: </label>
-          <input type="email" id="email" name="email" />
+          <input type="email" id="email" />
           
-          {/* Parol sahəsi */}
+          {/* Password bloku - Aradakı boşluqlara və htmlFor/id uyğunluğuna diqqət */}
           <label htmlFor="password"> Password: </label>
-          <input type="password" id="password" name="password" />
+          <input type="password" id="password" />
           
-          {/* Düymə */}
           <button type="button">OK</button>
-        </main>
-        <footer className="App-footer">
+        </div>
+        <div className="App-footer">
           <p>Copyright {getCurrentYear()} - {getFooterCopy(true)}</p>
-        </footer>
+        </div>
       </div>
     </>
   );
