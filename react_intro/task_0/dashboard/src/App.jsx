@@ -1,11 +1,12 @@
 import React from 'react';
-import logo from './assets/holberton-logo.jpg';
+import logo from './holberton-logo.jpg';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <div className="App-header">
+        {/* Alt mətni mütləq "holberton logo" olmalıdır */}
         <img src={logo} alt="holberton logo" />
         <h1>School dashboard</h1>
       </div>
