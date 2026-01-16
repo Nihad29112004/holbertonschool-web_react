@@ -2,38 +2,35 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import App from './App';
 
-describe('App Component Tests', () => {
-  let wrapper;
-
-  beforeEach(() => {
-    wrapper = shallow(<App />);
-  });
-
+describe('App component', () => {
   it('renders without crashing', () => {
+    const wrapper = shallow(<App />);
     expect(wrapper.exists()).toBe(true);
   });
 
-  // 1. 2 input elementinin olduğunu yoxlayır
   it('renders 2 input elements', () => {
+    const wrapper = shallow(<App />);
     expect(wrapper.find('input')).toHaveLength(2);
   });
 
-  // 2. Label mətnlərini REGEX ilə (case-insensitive) yoxlayır
-  it('renders 2 label elements with text Email and Password', () => {
-    // find('label') bütün labelləri tapır
-    const labels = wrapper.find('label');
-    expect(labels).toHaveLength(2);
-    
-    // .at(0).text() birinci labelin mətnini qaytarır
-    // toMatch(/Email/i) böyük/kiçik hərf fərqi qoymadan yoxlayır
-    expect(labels.at(0).text()).toMatch(/Email/i);
-    expect(labels.at(1).text()).toMatch(/Password/i);
+  it('renders 2 label elements', () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.find('label')).toHaveLength(2);
   });
 
-  // 3. Düyməni REGEX ilə yoxlayır
+  it('checks that the label for email has the text Email', () => {
+    const wrapper = shallow(<App />);
+    // /Email/i - bu hissə tapşırıqdakı "ignore case" tələbidir
+    expect(wrapper.find('label').at(0).text()).toMatch(/Email/i);
+  });
+
+  it('checks that the label for password has the text Password', () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.find('label').at(1).text()).toMatch(/Password/i);
+  });
+
   it('renders a button with the text OK', () => {
-    const button = wrapper.find('button');
-    expect(button).toHaveLength(1);
-    expect(button.text()).toMatch(/OK/i);
+    const wrapper = shallow(<App />);
+    expect(wrapper.find('button').text()).toMatch(/OK/i);
   });
 });
