@@ -1,38 +1,36 @@
-import logo from './holberton-logo.jpg';
-import './App.css';
-import { getCurrentYear, getFooterCopy } from './utils';
-import Notifications from './Notifications';
+import holberton_logo from './holberton_logo.jpg'
+import './App.css'
+import { getFooterCopy, getFullYear } from './utils'
 
 function App() {
   return (
     <>
-      <div className="root-notifications">
-        <Notifications />
+      <div className="App-header">
+        <figure>
+          <img src={holberton_logo} alt="Holberton Logo" />
+        </figure>
+        <h1>School dashboard</h1>
       </div>
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} alt="holberton logo" />
-          <h1>School dashboard</h1>
-        </div>
-        <div className="App-body">
-          <p>Login to access the full dashboard</p>
-          
-          {/* Email bloku - Aradakı boşluqlara və htmlFor/id uyğunluğuna diqqət */}
+
+      <div className="App-body">
+        <p>Login to access the full dashboard</p>
+
+        <form>
           <label htmlFor="email">Email: </label>
-          <input type="email" id="email" />
-          
-          {/* Password bloku - Aradakı boşluqlara və htmlFor/id uyğunluğuna diqqət */}
-          <label htmlFor="password"> Password: </label>
-          <input type="password" id="password" />
-          
-          <button type="button">OK</button>
-        </div>
-        <div className="App-footer">
-          <p>Copyright {getCurrentYear()} - {getFooterCopy(true)}</p>
-        </div>
+          <input id="email" name="email" type="text" />
+
+          <label htmlFor="password">Password:</label>
+          <input id="password" name="password" type="password" />
+
+          <button>OK</button>
+        </form>
+      </div>
+
+      <div className="App-footer">
+        <p>Copyright { getFullYear() } - { getFooterCopy(true) }</p>
       </div>
     </>
-  );
+  )
 }
 
-export default App;
+export default App
