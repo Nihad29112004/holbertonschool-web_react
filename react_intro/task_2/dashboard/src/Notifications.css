@@ -1,6 +1,27 @@
-.notification-items {
-  border: 1px dashed #e0354b;
-  padding: 10px;
-  margin: 10px;
-  /* Dizayna uyğun digər stilləri bura əlavə edə bilərsən */
+.Notifications {
+  border: 2px dashed #e0354b;
+  padding: 1rem;
+  margin: 1rem;
+  position: relative; 
+}
+
+.Notifications p {
+  margin-top: 0;
+}
+
+[data-priority="default"] {
+  color: blue;
+}
+
+[data-priority="urgent"] {
+  color: red;
+}
+
+
+.Notifications ul {
+  padding-left: 2rem;
+}
+
+.Notifications li {
+  margin-bottom: 0.5rem;
 }
