@@ -7,11 +7,14 @@ import PropTypes from 'prop-types';
 class Notifications extends Component {
   constructor(props) {
     super(props);
-    // Metodu bind edirik ki, "this" konteksti itməsin
     this.markAsRead = this.markAsRead.bind(this);
   }
 
-  // Kliklənəndə işləyəcək metod
+  // Yalnız siyahının uzunluğu dəyişdikdə komponenti yeniləyirik
+  shouldComponentUpdate(nextProps) {
+    return nextProps.listNotifications.length !== this.props.listNotifications.length;
+  }
+
   markAsRead(id) {
     console.log(`Notification ${id} has been marked as read`);
   }
@@ -43,7 +46,7 @@ class Notifications extends Component {
                     type={notif.type}
                     value={notif.value}
                     html={notif.html}
-                    markAsRead={this.markAsRead} // Funksiyanı bura ötürürük
+                    markAsRead={this.markAsRead}
                   />
                 ))
               )}
@@ -57,12 +60,12 @@ class Notifications extends Component {
 
 Notifications.propTypes = {
   displayDrawer: PropTypes.bool,
-  listNotifications: PropTypes.array // Daha dəqiq yoxlama üçün NotificationItemShape istifadə edilə bilər
+  listNotifications: PropTypes.array,
 };
 
 Notifications.defaultProps = {
   displayDrawer: false,
-  listNotifications: []
+  listNotifications: [],
 };
 
 export default Notifications;

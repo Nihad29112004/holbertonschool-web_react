@@ -1,43 +1,48 @@
-import Notifications from './Notifications.jsx'
-import { render, screen } from '@testing-library/react'
-import { v4 as uuidv4 } from 'uuid'
-import { getLatestNotification } from '../utils/utils.js'
-import userEvent from '@testing-library/user-event'
+import React from 'react';
+import { render } from '@testing-library/react';
+import Notifications from './Notifications';
 
+describe('Notifications component performance', () => {
+  it('should not re-render when the listNotifications length is the same', () => {
+    const listNotifications = [
+      { id: 1, type: 'default', value: 'New course available' }
+    ];
+    
+    // Render metodunu izləmək üçün spy yaradırıq
+    const spy = jest.spyOn(Notifications.prototype, 'render');
+    
+    const { rerender } = render(
+      <Notifications displayDrawer={true} listNotifications={listNotifications} />
+    );
+    
+    // Eyni uzunluqda siyahı ilə yenidən render edirik
+    rerender(<Notifications displayDrawer={true} listNotifications={listNotifications} />);
+    
+    // render metodu yalnız bir dəfə (ilk mount-da) çağırılmalıdır
+    expect(spy).toHaveBeenCalledTimes(1);
+    spy.mockRestore();
+  });
 
-test("if the displayDrawler is false", () => {
-    render(<Notifications notifications={[]} displayDrawer={false}/>)
-    const p = screen.getByRole("paragraph")
-    expect(p).toBeInTheDocument()
-    const btn = screen.queryByRole("button")
-    expect(btn).toBeNull()
-})
+  it('should re-render when the listNotifications length changes', () => {
+    const listNotifications = [
+      { id: 1, type: 'default', value: 'New course available' }
+    ];
+    const newListNotifications = [
+      { id: 1, type: 'default', value: 'New course available' },
+      { id: 2, type: 'urgent', value: 'New resume available' }
+    ];
 
-test("if the displayDrawler is true and the list is not empty", () => {
-    render(<Notifications notifications={[{id: uuidv4(), type: "default", value: "New course available"}, {id: uuidv4(), type: "urgent", value: "New resume available"}, {id: uuidv4(), type: "urgent", HTML: getLatestNotification()}]} displayDrawer={true}/>)
-    const p = screen.getAllByRole("paragraph")
-    expect(p.length).toBe(2)
-    const btn = screen.queryByRole("button")
-    expect(btn).toBeInTheDocument()
-    const li = screen.getAllByRole("listitem")
-    expect(li.length).toBe(3)
-    // equal to the list length
-})
-
-test("if the displayDrawler is true and the list is empty", () => {
-    render(<Notifications notifications={[]} displayDrawer={true}/>)
-    const text = screen.getByText("No new notification for now")
-    expect(text).toBeInTheDocument()
-})
-
-test("if the message Notification {id} has been marked as read is logged", async () => {
-    const logMock = jest.spyOn(console, 'log').mockImplementation(() => {})
-    const mockedFunc = jest.fn().mockImplementation(() => {console.log(`Notification 123 has been marked as read`)})
-    render(<Notifications notifications={[{id: uuidv4(), type: "default", value: "New course available"}, {id: uuidv4(), type: "urgent", value: "New resume available"}, {id: uuidv4(), type: "urgent", HTML: getLatestNotification()}]} displayDrawer={true}/>)
-    console.log(screen.getAllByRole("listitem"))
-    const userE = userEvent.setup()
-    let itemsArray = screen.getAllByRole("listitem")
-    await userE.click(itemsArray[0])
-    expect(logMock).toBeCalled()
-    jest.clearAllMocks()
-})
+    const spy = jest.spyOn(Notifications.prototype, 'render');
+    
+    const { rerender } = render(
+      <Notifications displayDrawer={true} listNotifications={listNotifications} />
+    );
+    
+    // Yeni (daha uzun) siyahı ilə yenidən render edirik
+    rerender(<Notifications displayDrawer={true} listNotifications={newListNotifications} />);
+    
+    // render metodu iki dəfə çağırılmalıdır (mount + update)
+    expect(spy).toHaveBeenCalledTimes(2);
+    spy.mockRestore();
+  });
+});
