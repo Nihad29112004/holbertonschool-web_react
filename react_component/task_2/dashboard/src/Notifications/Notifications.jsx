@@ -1,52 +1,68 @@
-import "./Notifications.css"
-import PropTypes from 'prop-types'
-import NotificationItem from "./NotificationItem.jsx"
-import {v4 as uuid4} from "uuid"
-import { Component } from "react"
-
+import React, { Component } from 'react';
+import './Notifications.css';
+import closeIcon from '../assets/close-icon.png';
+import NotificationItem from './NotificationItem';
+import PropTypes from 'prop-types';
 
 class Notifications extends Component {
-    markAsRead(id) {
-        console.log(`Notification ${id} has been marked as read`)
-    }
+  constructor(props) {
+    super(props);
+    // Metodu bind edirik ki, "this" konteksti itməsin
+    this.markAsRead = this.markAsRead.bind(this);
+  }
 
-    render() {
-        if (this.props.displayDrawer == false) {
-            return (<>
-                        <div className='notifications-title' role='paragraph'>Your notifications</div>
-                    </>)
-        }
-        else {
-        return (
-        <>
-        <div className='notifications-title' role='paragraph'>Your notifications</div>
-        <div className="notifications">
-        
-                {this.props.notifications.length != 0 ?  ( 
-                    <>
-                        <p>Here is the list of notifications</p>
-                        <button  aria-label="Close" style={{display: "inline"}} onClick={() => {console.log("Close button has been clicked")}} type="button"><img src="/src/assets/close-button.png" alt="close button"/></button>
-                        <ul>
-                            {this.props.notifications.map((obj) => (
-                                <NotificationItem  key={uuid4()} type={obj.type} value={obj.value} html={obj.HTML} fn={this.markAsRead}/>)
-                                )
-                                }
-                        </ul>
-                    </>
-                    )
-                    : (<p>No new notification for now</p>)
-                }
-        </div>
-        </>
-        )
-        }}
+  // Kliklənəndə işləyəcək metod
+  markAsRead(id) {
+    console.log(`Notification ${id} has been marked as read`);
+  }
+
+  render() {
+    const { displayDrawer, listNotifications } = this.props;
+
+    return (
+      <React.Fragment>
+        <div className="menuItem">Your notifications</div>
+        {displayDrawer && (
+          <div className="Notifications">
+            <button
+              style={{ float: 'right', background: 'none', border: 'none', cursor: 'pointer' }}
+              aria-label="Close"
+              onClick={() => console.log('Close button has been clicked')}
+            >
+              <img src={closeIcon} alt="close icon" width="10px" />
+            </button>
+            <p>Here is the list of notifications</p>
+            <ul>
+              {listNotifications.length === 0 ? (
+                <NotificationItem value="No new notification for now" />
+              ) : (
+                listNotifications.map((notif) => (
+                  <NotificationItem
+                    key={notif.id}
+                    id={notif.id}
+                    type={notif.type}
+                    value={notif.value}
+                    html={notif.html}
+                    markAsRead={this.markAsRead} // Funksiyanı bura ötürürük
+                  />
+                ))
+              )}
+            </ul>
+          </div>
+        )}
+      </React.Fragment>
+    );
+  }
 }
 
 Notifications.propTypes = {
-    notifications: PropTypes.array,
-    displayDrawer: PropTypes.bool
-}
+  displayDrawer: PropTypes.bool,
+  listNotifications: PropTypes.array // Daha dəqiq yoxlama üçün NotificationItemShape istifadə edilə bilər
+};
 
+Notifications.defaultProps = {
+  displayDrawer: false,
+  listNotifications: []
+};
 
-
-export default Notifications
+export default Notifications;
