@@ -1,28 +1,27 @@
-import { Component } from "react"
+import React, { Component } from 'react';
 
-const withLogging = (WrappedComponent) => class WithLogging extends Component {
-    
-    constructor(props) {
-        super(props)
-        if (!WrappedComponent.name) {
-            WithLogging.displayName = `WithLogging(Component)`
-        } else {
-            WithLogging.displayName = `WithLogging(${WrappedComponent.name})`
-        }
-    }
+const WithLogging = (WrappedComponent) => {
+  // Komponentin adını təyin edirik (həm funksiya, həm sinif üçün)
+  const name = WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
-    
+  class WithLogging extends Component {
     componentDidMount() {
-        console.log(`Component ${WrappedComponent.name || 'Component'} is mounted`)
+      console.log(`Component ${name} is mounted`);
     }
 
     componentWillUnmount() {
-        console.log(`Component ${WrappedComponent.name || 'Component'} is going to unmount`)
+      console.log(`Component ${name} is going to unmount`);
     }
 
     render() {
-        return (<WrappedComponent {...this.props}/>)
+      return <WrappedComponent {...this.props} />;
     }
-}
+  }
 
-export default withLogging
+  // HOC-un adını testin gözlədiyi formatda təyin edirik
+  WithLogging.displayName = `WithLogging(${name})`;
+
+  return WithLogging;
+};
+
+export default WithLogging;
