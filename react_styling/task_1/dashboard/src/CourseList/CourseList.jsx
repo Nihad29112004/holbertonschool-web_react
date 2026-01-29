@@ -1,11 +1,10 @@
-/* task_1/dashboard/src/CourseList/CourseList.jsx */
 import React from 'react';
 import CourseListRow from './CourseListRow';
 import PropTypes from 'prop-types';
-import CourseShape from './CourseShape';
 
 function CourseList({ listCourses }) {
   return (
+    /* Konteyner 80% enində və mərkəzdə (mx-auto) */
     <div className="w-[80%] mx-auto mt-10">
       <table id="CourseList" className="w-full border-collapse border border-gray-400">
         <thead>
@@ -31,12 +30,8 @@ function CourseList({ listCourses }) {
   );
 }
 
-CourseList.defaultProps = {
-  listCourses: [],
-};
-
 CourseList.propTypes = {
-  listCourses: PropTypes.arrayOf(CourseShape),
+  listCourses: PropTypes.array,
 };
 
 export default CourseList;

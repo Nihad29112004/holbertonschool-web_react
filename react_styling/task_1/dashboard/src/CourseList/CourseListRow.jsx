@@ -1,14 +1,14 @@
-/* task_1/dashboard/src/CourseList/CourseListRow.jsx */
 import React from 'react';
 import PropTypes from 'prop-types';
 
 function CourseListRow({ isHeader, textFirstCell, textSecondCell }) {
-  // Şərtlərə uyğun klasslar
-  const rowColor = isHeader ? 'bg-[--color-table-header]' : 'bg-[--color-table-rows]';
-  const rowOpacity = isHeader ? 'opacity-[0.66]' : 'opacity-[0.45]';
+  // Rəng və opacity dəyişənləri birbaşa Tailwind klassları ilə
+  const rowStyle = isHeader 
+    ? 'bg-[--color-table-header] opacity-[0.66]' 
+    : 'bg-[--color-table-rows] opacity-[0.45]';
 
   return (
-    <tr className={`${rowColor} ${rowOpacity}`}>
+    <tr className={rowStyle}>
       {isHeader ? (
         textSecondCell === null ? (
           <th colSpan="2" className="border border-gray-400 p-2 text-center">
@@ -22,18 +22,14 @@ function CourseListRow({ isHeader, textFirstCell, textSecondCell }) {
         )
       ) : (
         <>
-          <td className="border border-gray-400 p-2 pl-2">{textFirstCell}</td>
-          <td className="border border-gray-400 p-2 pl-2">{textSecondCell}</td>
+          {/* td üçün padding-left 8px (pl-2) */}
+          <td className="border border-gray-400 p-2 pl-2 text-left">{textFirstCell}</td>
+          <td className="border border-gray-400 p-2 pl-2 text-left">{textSecondCell}</td>
         </>
       )}
     </tr>
   );
 }
-
-CourseListRow.defaultProps = {
-  isHeader: false,
-  textSecondCell: null,
-};
 
 CourseListRow.propTypes = {
   isHeader: PropTypes.bool,
