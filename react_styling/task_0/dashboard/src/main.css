@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
-/* Roboto şriftini mövzuya (theme) əlavə edirik */
 @theme {
+ 
   --font-roboto: "Roboto", sans-serif;
 }
 
-/* Layer sistemindən istifadə edərək bütün tətbiqə tətbiq edirik */
 @layer base {
+ 
   html {
     font-family: var(--font-roboto);
   }
