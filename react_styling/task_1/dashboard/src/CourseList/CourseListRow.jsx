@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function CourseListRow({ isHeader = false, textFirstCell = '', textSecondCell = null }) {
-  // Header üçün 66% opacity, normal sətir üçün 45% opacity
+  // Opacity şərtləri: Header 66% (0.66), Normal 45% (0.45)
   const rowStyle = isHeader
     ? "bg-[#deb5b5]/[0.66]" 
     : "bg-[#CDCDCD]/[0.45]";
@@ -17,8 +17,8 @@ export default function CourseListRow({ isHeader = false, textFirstCell = '', te
         </>
       ) : (
         <>
-          <td className="border border-gray-400 pl-2">{textFirstCell}</td>
-          <td className="border border-gray-400 pl-2">{textSecondCell}</td>
+          <td className="border border-gray-400 pl-2 py-2">{textFirstCell}</td>
+          <td className="border border-gray-400 pl-2 py-2">{textSecondCell}</td>
         </>
       )}
     </tr>
