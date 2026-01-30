@@ -1,32 +1,12 @@
 import React from 'react';
-import { StyleSheet, css } from 'aphrodite'; // Aphrodite kitabxanası
 import CourseListRow from './CourseListRow';
-
-// Stilləri burada təyin edirik
-const styles = StyleSheet.create({
-  container: {
-    width: '80%', // Tapşırıq 80% istəyir
-    margin: '40px auto',
-    minHeight: '29vh',
-  },
-  containerNoCourses: {
-    width: '90%', // Kurs olmadıqda 80-90% arası
-    margin: '40px auto',
-  },
-  table: {
-    width: '100%', // Table valideynin 100%-ni tutmalıdır
-    borderCollapse: 'collapse',
-    border: '1px solid #ddd',
-  }
-});
+import WithLogging from '../HOC/WithLogging';
 
 function CourseList({ courses = [] }) {
-  // Kurs olub-olmamasına görə konteynər stilini seçirik
-  const currentContainerStyle = courses.length > 0 ? styles.container : styles.containerNoCourses;
-
+  // Kurs olub-olmamasına baxmayaraq 80% genişlik və mərkəzləmə (mx-auto)
   return (
-    <div className={css(currentContainerStyle)}>
-      <table id="CourseList" className={css(styles.table)}>
+    <div className="mx-auto my-12 w-4/5"> 
+      <table id="CourseList" className="w-full border-collapse border border-gray-400">
         <thead>
           {courses.length > 0 ? (
             <>
@@ -38,11 +18,12 @@ function CourseList({ courses = [] }) {
           )}
         </thead>
         <tbody>
-          {courses.map(course => (
+          {courses.map((course) => (
             <CourseListRow 
               key={course.id} 
               textFirstCell={course.name} 
               textSecondCell={course.credit} 
+              isHeader={false}
             />
           ))}
         </tbody>
@@ -51,4 +32,5 @@ function CourseList({ courses = [] }) {
   );
 }
 
-export default CourseList;
+const CourseListWithLogging = WithLogging(CourseList);
+export default CourseListWithLogging;
