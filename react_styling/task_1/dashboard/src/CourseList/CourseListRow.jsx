@@ -1,40 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-function CourseListRow({ isHeader, textFirstCell, textSecondCell }) {
-  // Rəng və opacity dəyişənləri birbaşa Tailwind klassları ilə
-  const rowStyle = isHeader 
-    ? 'bg-[--color-table-header] opacity-[0.66]' 
-    : 'bg-[--color-table-rows] opacity-[0.45]';
-
+export default function CourseListRow({
+  isHeader = false,
+  textFirstCell = '',
+  textSecondCell = null
+}) {
   return (
-    <tr className={rowStyle}>
+    <tr className={isHeader
+      ? "bg-[color-mix(in_srgb,var(--color-table-header)_66%,transparent)]"
+      : "bg-[color-mix(in_srgb,var(--color-table-rows)_45%,transparent)]"
+    }>
       {isHeader ? (
-        textSecondCell === null ? (
-          <th colSpan="2" className="border border-gray-400 p-2 text-center">
-            {textFirstCell}
-          </th>
-        ) : (
-          <>
-            <th className="border border-gray-400 p-2 text-left">{textFirstCell}</th>
-            <th className="border border-gray-400 p-2 text-left">{textSecondCell}</th>
-          </>
-        )
+        <>
+          <th className="border border-gray-400" colSpan={textSecondCell ? 1 : 2}>{textFirstCell}</th>
+          {textSecondCell && <th className="border border-gray-400">{textSecondCell}</th>}
+        </>
       ) : (
         <>
-          {/* td üçün padding-left 8px (pl-2) */}
-          <td className="border border-gray-400 p-2 pl-2 text-left">{textFirstCell}</td>
-          <td className="border border-gray-400 p-2 pl-2 text-left">{textSecondCell}</td>
+          <td className="border border-gray-400 pl-2">{textFirstCell}</td>
+          <td className="border border-gray-400 pl-2">{textSecondCell}</td>
         </>
       )}
     </tr>
-  );
+  )
 }
-
-CourseListRow.propTypes = {
-  isHeader: PropTypes.bool,
-  textFirstCell: PropTypes.string.isRequired,
-  textSecondCell: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-};
-
-export default CourseListRow;

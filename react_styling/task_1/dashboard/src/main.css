@@ -1,11 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --font-roboto: "Roboto", sans-serif;
-  
-  /* Tapşırıqda tələb olunan rəng dəyişənləri */
   --color-table-header: #deb5b5;
   --color-table-rows: #CDCDCD;
+  --font-roboto: "Roboto", system-ui, sans-serif;
 }
 
 @layer base {

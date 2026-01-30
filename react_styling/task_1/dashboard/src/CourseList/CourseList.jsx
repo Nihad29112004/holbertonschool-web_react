@@ -1,37 +1,50 @@
-import React from 'react';
 import CourseListRow from './CourseListRow';
-import PropTypes from 'prop-types';
+import WithLogging from '../HOC/WithLogging';
 
-function CourseList({ listCourses }) {
+function CourseList({ courses = [] }) {
   return (
-    /* Konteyner 80% enində və mərkəzdə (mx-auto) */
-    <div className="w-[80%] mx-auto mt-10">
-      <table id="CourseList" className="w-full border-collapse border border-gray-400">
-        <thead>
-          <CourseListRow isHeader={true} textFirstCell="Available courses" />
-          <CourseListRow isHeader={true} textFirstCell="Course name" textSecondCell="Credit" />
-        </thead>
-        <tbody>
-          {listCourses.length === 0 ? (
-            <CourseListRow isHeader={false} textFirstCell="No course available yet" />
-          ) : (
-            listCourses.map((course) => (
-              <CourseListRow
-                key={course.id}
-                isHeader={false}
-                textFirstCell={course.name}
-                textSecondCell={course.credit}
+    <div className='courses mx-auto my-32 w-4/5 h-[29vh]'>
+      {
+        courses.length > 0 ? 
+        (
+          <table id="CourseList" className='w-full border-collapse border border-gray-300'>
+            <thead>
+              <CourseListRow 
+                textFirstCell="Available courses"
+                isHeader={true}
               />
-            ))
-          )}
-        </tbody>
-      </table>
+              <CourseListRow 
+                textFirstCell="Course name" 
+                textSecondCell="Credit" 
+                isHeader={true} 
+              />
+            </thead>
+            <tbody>
+              {
+                courses.map(course => (
+                  <CourseListRow 
+                    key={course.id}
+                    textFirstCell={course.name} 
+                    textSecondCell={course.credit} 
+                  />
+                ))
+              }
+            </tbody>
+          </table>
+        ) : (
+          <table id="CourseList" className='w-full border-collapse border border-gray-300'>
+            <thead>
+              <CourseListRow 
+                isHeader={true} 
+                textFirstCell="No course available yet" 
+              />
+            </thead>
+          </table>
+        )
+      }
     </div>
   );
 }
 
-CourseList.propTypes = {
-  listCourses: PropTypes.array,
-};
-
-export default CourseList;
+const CourseListWithLogging = WithLogging(CourseList);
+export default CourseListWithLogging
