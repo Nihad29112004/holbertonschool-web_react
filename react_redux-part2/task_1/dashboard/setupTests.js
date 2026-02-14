@@ -1,10 +1,11 @@
-import '@testing-library/jest-dom';
-import { StyleSheetTestUtils } from 'aphrodite';
+const { configure } = require('enzyme');
+const Adapter = require('enzyme-adapter-react-16');
 
-beforeEach(() => {
-  StyleSheetTestUtils.suppressStyleInjection();
-});
+// TextEncoder xətasını aradan qaldırmaq üçün mütləqdir
+if (typeof global.TextEncoder === 'undefined') {
+  const { TextEncoder, TextDecoder } = require('util');
+  global.TextEncoder = TextEncoder;
+  global.TextDecoder = TextDecoder;
+}
 
-afterEach(() => {
-  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-});
+configure({ adapter: new Adapter() });

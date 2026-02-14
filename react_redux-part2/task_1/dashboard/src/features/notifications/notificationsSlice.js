@@ -1,55 +1,31 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { getLatestNotification } from '../../utils/utils';
 
-const API_BASE_URL = 'http://localhost:5173';
-export const ENDPOINTS = {
-  notifications: `${API_BASE_URL}/notifications.json`,
-};
+// fetchNotifications thunk-ı burada təyin edildiyini fərz edirik
 
-// Async thunk to fetch notifications
-export const fetchNotifications = createAsyncThunk(
-  'notifications/fetchNotifications',
-  async () => {
-    const response = await axios.get(ENDPOINTS.notifications);
-    const data = response.data;
-
-    // Update notification with id 3
-    return data.map((notification) =>
-      notification.id === 3
-        ? { ...notification, value: getLatestNotification() }
-        : notification
-    );
-  }
-);
-
-const initialState = {
-  notifications: [],
-  displayDrawer: true,
-};
-
-export const notificationsSlice = createSlice({
+const notificationsSlice = createSlice({
   name: 'notifications',
-  initialState,
+  initialState: {
+    notifications: [],
+    loading: false, // Default olaraq false
+    error: null,
+  },
   reducers: {
-    markNotificationAsRead: (state, action) => {
-      const id = action.payload;
-      console.log(`Notification ${id} has been marked as read`);
-      state.notifications = state.notifications.filter((n) => n.id !== id);
-    },
-    showDrawer: (state) => {
-      state.displayDrawer = true;
-    },
-    hideDrawer: (state) => {
-      state.displayDrawer = false;
-    },
+    // digər reducer-lər...
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchNotifications.fulfilled, (state, action) => {
-      state.notifications = action.payload;
-    });
+    builder
+      .addCase(fetchNotifications.pending, (state) => {
+        state.loading = true; // Sorğu başladı
+      })
+      .addCase(fetchNotifications.fulfilled, (state, action) => {
+        state.loading = false; // Sorğu uğurla bitdi
+        state.notifications = action.payload;
+      })
+      .addCase(fetchNotifications.rejected, (state, action) => {
+        state.loading = false; // Sorğu uğursuz oldu
+        state.error = action.error.message;
+      });
   },
 });
 
-export const { markNotificationAsRead, showDrawer, hideDrawer } = notificationsSlice.actions;
 export default notificationsSlice.reducer;
