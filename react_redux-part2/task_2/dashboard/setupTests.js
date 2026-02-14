@@ -1,10 +1,15 @@
-import '@testing-library/jest-dom';
-import { StyleSheetTestUtils } from 'aphrodite';
+/** @jest-environment jsdom */
+import { shallow } from 'enzyme';
+import CourseListRow from './CourseListRow';
 
-beforeEach(() => {
-  StyleSheetTestUtils.suppressStyleInjection();
-});
+describe('CourseListRow Component', () => {
+  it('calls onChangeRow with right arguments when checkbox is clicked', () => {
+    const onChangeRow = jest.fn();
+    const wrapper = shallow(
+      <CourseListRow id="1" name="ES6" credit="60" onChangeRow={onChangeRow} />
+    );
 
-afterEach(() => {
-  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+    wrapper.find('input').simulate('change', { target: { checked: true } });
+    expect(onChangeRow).toHaveBeenCalledWith("1", true);
+  });
 });
