@@ -1,14 +1,39 @@
-import React from 'react';
-import closeIcon from '../../assets/close-icon.png';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getFilteredNotifications } from '../../features/selectors/notificationsSelector';
+import { markAsRead } from '../../features/notifications/notificationsSlice';
+import NotificationItem from '../NotificationItem/NotificationItem';
 
-function Notifications() {
+const Notifications = () => {
+  const [currentFilter, setCurrentFilter] = useState('all');
+  const dispatch = useDispatch();
+
+  const filteredNotifications = useSelector((state) => 
+    getFilteredNotifications(state, currentFilter)
+  );
+
   return (
-    <div className="Notifications">
+    <div id="notificationsDrawer">
       <p>Here is the list of notifications</p>
-      <button style={{ float: 'right' }} aria-label="Close">
-        <img src={closeIcon} alt="close" width="10px" />
-      </button>
+      
+      {/* Süzgəc düymələri */}
+      <button onClick={() => setCurrentFilter('urgent')}>‼️</button>
+      <button onClick={() => setCurrentFilter('default')}>??</button>
+      <button onClick={() => setCurrentFilter('all')}>All</button>
+
+      <ul>
+        {filteredNotifications.map((notif) => (
+          <NotificationItem
+            key={notif.id}
+            id={notif.id}
+            type={notif.type}
+            value={notif.value}
+            markAsRead={(id) => dispatch(markAsRead(id))}
+          />
+        ))}
+      </ul>
     </div>
   );
-}
+};
+
 export default Notifications;
